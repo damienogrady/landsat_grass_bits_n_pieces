@@ -1,0 +1,17 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+open INPUT, "list" or die();
+
+# /media/data2/Landsat_Data/Landsat_TM/Landsat_5/112084/1998/190/LT51120841998190ASA00.tar.gz
+
+my @fullpaths = (<INPUT>);
+
+foreach my $path (@fullpaths) {
+	if ($path =~ /(L[A-Z]\d{14}[A-Z0-9]{5})/) {
+		mkdir $1;
+		system "tar -C $1 -xzf $path ";
+	}
+}

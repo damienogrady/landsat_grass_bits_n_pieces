@@ -1,0 +1,38 @@
+#!/usr/bin/perl
+##################################################################
+#
+# This searches for any Landsat TM files under the current tree
+# and moves them to where they should be in the data2 folder.
+#
+# Currently restricted to files under the subfolder "Unregistered"
+# just in case.
+#
+##################################################################
+use warnings;
+use strict;
+use File::Find;
+use File::Copy;
+use File::Path "make_path";
+
+find(\&wanted, ("Unregistered"));
+
+sub wanted {
+	if(/^L[A-Z](\d)(\d{3})(\d{3})(\d{4})(\d{3})/) {
+		my ($ls, $path, $row, $year, $jday) = ($1, $2, $3, $4, $5);
+		print "\n";
+		print <<"EOF";
+Name = $_
+Path = $File::Find::name
+Landsat = $ls
+Path = $path
+Row = $row
+Year = $year
+Day = $jday
+EOF
+		my $destination = "/media/data2/Landsat_Data/Landsat_TM/Landsat_$ls/$path$row/$year/$jday";
+		print "Destination = $destination/$_\n";
+		make_path $destination;
+		move($_, "$destination/$_");
+		print "$!\n";
+	}
+}
