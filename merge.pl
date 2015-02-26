@@ -19,4 +19,4 @@ my ($base, $map, $output) = @ARGV or die "You must argue a base map and another 
 
 my %coeffs = split /[=\n\r]/, `r.regression.line -g map1=$map map2=$base `;
 
-system "r.mapcalc '$output = if(isnull($map), $base, $coeff{b} * $map + $coeff{a})' ";
+system "r.mapcalc '$output = if(isnull($map), $base, $coeffs{b} * $map + $coeffs{a})' ";
