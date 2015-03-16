@@ -72,7 +72,7 @@ sub reproject_here {
         my ($location, $map, $newname, $band) = @_;
 	my $res = ($band == 8 ? 15 : 30);
 	system "g.region res=$res ";
-        system "r.proj loc=$location inp=$map out=$newname ";
+        system "r.proj loc=$location map=PERMANENT inp=$map out=$newname ";
 }
 
 sub get_maps { 
